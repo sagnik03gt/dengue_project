@@ -1,0 +1,124 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <title>DOCTOR-LIST</title>
+
+    <!-- Custom fonts for this template-->
+    <link
+      href="{% static 'adminpanel/vendor/fontawesome-free/css/all.min.css' %}"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+      rel="stylesheet"
+    />
+
+    <!-- Custom styles for this template-->
+    <link
+      href="{% static 'adminpanel/css/sb-admin-2.min.css' %}"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body id="page-top">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+      <!-- Sidebar -->
+      {% include "admin_inc/menu.html" %}
+      <!-- End of Sidebar -->
+
+      <!-- Content Wrapper -->
+      <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Main Content -->
+        <div id="content">
+          <!-- Topbar -->
+          {% include "admin_inc/top.html" %}
+          <!-- End of Topbar -->
+
+          <!-- Begin Page Content -->
+          <div class="container-fluid">
+            <!-- Page Heading -->
+            <h1 class="h3 mb-4 text-gray-800">DOCTORS LIST</h1>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Doctor name</th>
+                  <th>Specialist</th>
+                  <th>Fees</th>
+                  <th>Schedule</th>
+                  <th>Doctor image</th>
+                  <th>Location</th>
+                  <th>Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+               {%for d in doc_list%}
+                <tr>
+                  <td>{{d.doctor_name}}</td>
+                  <td>{{d.specialist}}</td>
+                  <td>{{d.doctor_fees}}</td>
+                  <td>{{d.doctor_schedule}}</td>
+                  <td>
+                     {% if d.doctor_img and d.doctor_img.url  %}
+                        <img src="{{d.doctor_img.url}}" style="width:100px;height:100px">
+                     {% else %}
+                        <p>Nothing to see </p>
+                      {% endif %}
+                  </td>
+                  <td>{{d.doctor_loc}}</td>
+                  <td>
+                    <form action="{% url 'deldoctor' d.id %}" method="post">
+                      {% csrf_token %}
+                      <input type="hidden" value="{{m.id}}" name="id">
+                      <button class="btn btn-danger" onclick="return confirm('Are you sure, You want to delete this ?');">
+                        Delete
+                      </button>
+                    </form>
+                    {% comment %} </form> {% endcomment %}
+                  </td>
+                </tr>
+               {%endfor%}
+              </tbody>
+            </table>
+          </div>
+          <!-- /.container-fluid -->
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        {% include "admin_inc/footer.html" %}
+        <!-- End of Footer -->
+      </div>
+      <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="{% static 'adminpanel/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'adminpanel/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{% static 'adminpanel/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{% static 'adminpanel/js/sb-admin-2.min.js' %}"></script>
+  </body>
+</html>
