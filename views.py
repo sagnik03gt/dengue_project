@@ -4,6 +4,7 @@ from DENGUE_APP.models import Medicine,Doctor,News
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
+import smtplib
 # Create your views here.
 
 def index(request):
@@ -132,6 +133,14 @@ def saveuser(request):
         myuser=User.objects.create_user(username,email,password)
         myuser.save()
         messages.success(request,"your account is created")
+        s_email="bj236051@gmail.com"
+        r_email=email
+        password="osfn caia qgdx ceaz"
+        messege = "Welcome to Dengue-Over and we will keep you updated with dengue fever"
+        server=smtplib.SMTP('smtp.gmail.com',587)
+        server.starttls()
+        server.login(s_email,password)
+        server.sendmail(s_email,r_email,messege)
         return redirect('index')
         
     else:
